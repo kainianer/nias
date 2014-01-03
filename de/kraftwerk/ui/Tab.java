@@ -11,8 +11,8 @@ package de.kraftwerk.ui;
  */
 public class Tab extends Button {
 
-    public Tab(int x, int y) {
-        super(x, y, "");
+    public Tab(int x, int y, Menu menu) {
+        super(x, y, "", menu);
     }
 
 }

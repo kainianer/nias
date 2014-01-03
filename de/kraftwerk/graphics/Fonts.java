@@ -21,7 +21,7 @@ public enum Fonts {
 
     HEADER("Fruce.ttf", 32),
     SUB("Fruce.ttf", 22),
-    TEXT("Fruce_Reg.ttf", 16);
+    TEXT("Fruce.ttf", 16);
 
     private Font font;
     private final TrueTypeFont trueType;
@@ -33,7 +33,6 @@ public enum Fonts {
             Logger.getLogger(Fonts.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.trueType = new TrueTypeFont(this.font.deriveFont(f), false);
-
     }
 
     public Font getFont() {

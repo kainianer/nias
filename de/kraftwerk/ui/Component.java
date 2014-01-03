@@ -5,11 +5,9 @@
  */
 package de.kraftwerk.ui;
 
-import de.kraftwerk.graphics.Fonts;
 import de.kraftwerk.util.Layout;
 import java.util.ArrayList;
 import java.util.List;
-import org.newdawn.slick.TrueTypeFont;
 
 /**
  *
@@ -17,9 +15,6 @@ import org.newdawn.slick.TrueTypeFont;
  */
 public class Component {
     
-    public final TrueTypeFont headFont = Fonts.HEADER.getTrueTypeFont();
-    public final TrueTypeFont subHeadFont = Fonts.SUB.getTrueTypeFont();
-    public final TrueTypeFont textFont = Fonts.TEXT.getTrueTypeFont();
     private Layout lout;
     private boolean isActive = false;
     private final List<SubComponent> subCmpnt = new ArrayList<>();

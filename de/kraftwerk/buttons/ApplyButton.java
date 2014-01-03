@@ -6,6 +6,7 @@
 package de.kraftwerk.buttons;
 
 import de.kraftwerk.ui.Button;
+import de.kraftwerk.ui.Menu;
 
 /**
  *
@@ -13,13 +14,15 @@ import de.kraftwerk.ui.Button;
  */
 public class ApplyButton extends Button {
 
-    public ApplyButton(int x, int y) {
-        super(x, y, "Apply");
+    public ApplyButton(int x, int y, Menu contained) {
+        super(x, y, "Apply changes", contained);
     }
 
     @Override
-    public void mousePressed(int i, int x, int y) {
-        super.mousePressed(i, x, y);
+    public void mouseReleased(int i, int x, int y) {
+        super.mouseReleased(i, x, y);
+        if(this.isHovered(x, y)) {
+            System.out.println("clicked");
+        }
     }
-
 }

@@ -5,8 +5,10 @@
  */
 package de.kraftwerk.ui;
 
+import de.kraftwerk.graphics.Fonts;
 import de.kraftwerk.graphics.UserInterface;
 import de.kraftwerk.stateability.Renderable;
+import de.kraftwerk.stateability.Updateable;
 import de.kraftwerk.util.Layout;
 import java.awt.Rectangle;
 import org.newdawn.slick.Color;
@@ -19,38 +21,52 @@ import org.newdawn.slick.MouseListener;
  *
  * @author kainianer
  */
-public class InputField extends Component implements KeyListener, MouseListener, Renderable {
+public class InputField extends Component implements KeyListener, MouseListener, Renderable, Updateable {
 
     private boolean writing;
     private boolean allSelected;
     private final StringBuilder builder;
+    private final StringBuilder passBuilder;
     private Input input;
     private final Button layout;
+    private final boolean pass;
+    private int delta;
+    private boolean bar;
 
-    public InputField(int x, int y) {
+    public InputField(int x, int y, boolean pass, Menu menu) {
         super(new Layout(x, y, UserInterface.BUTTON_NORMAL.getWidth(), UserInterface.BUTTON_NORMAL.getHeight()));
         this.builder = new StringBuilder();
-        this.layout = new Button(x, y, "");
+        this.passBuilder = new StringBuilder();
+        this.layout = new Button(x, y, "", menu);
         this.layout.setHover(true);
         this.layout.setPressed(true);
+        this.pass = pass;
     }
 
     private String getText() {
         if (this.builder.length() <= 24) {
-            return builder.toString();
+            if (!this.pass) {
+                return this.builder.toString();
+            } else {
+                return this.passBuilder.toString();
+            }
         } else {
-            return this.builder.subSequence(this.builder.length() - 25, this.builder.length()).toString();
+            if (!this.pass) {
+                return this.builder.subSequence(this.builder.length() - 25, this.builder.length()).toString();
+            } else {
+                return this.passBuilder.subSequence(this.passBuilder.length() - 25, this.passBuilder.length()).toString();
+            }
         }
     }
 
     @Override
     public void draw(Graphics grphcs) {
         layout.draw(grphcs);
-        grphcs.setFont(this.textFont);
+        grphcs.setFont(Fonts.TEXT.getTrueTypeFont());
         grphcs.setColor(Color.white);
         grphcs.drawString(this.getText(), this.getX() + 48, this.getY() + (this.getHeight() - grphcs.getFont().getLineHeight()) / 2);
-        if (this.writing) {
-            int width = grphcs.getFont().getWidth(this.getText() + "|") + 48;
+        if (this.writing && this.bar) {
+            int width = grphcs.getFont().getWidth(this.getText() + "_") + 48;
             grphcs.drawString("_", this.getX() + width, this.getY() + (this.getHeight() - grphcs.getFont().getLineHeight()) / 2 + 2);
         }
     }
@@ -60,10 +76,12 @@ public class InputField extends Component implements KeyListener, MouseListener,
         if (this.writing) {
             if (Character.isLetterOrDigit(c)) {
                 this.builder.append(c);
+                this.passBuilder.append('*');
             } else {
                 if (i == Input.KEY_BACK) {
                     if (builder.length() > 0) {
                         this.builder.deleteCharAt(this.builder.length() - 1);
+                        this.passBuilder.deleteCharAt(this.passBuilder.length() - 1);
                     }
                 }
             }
@@ -124,6 +142,23 @@ public class InputField extends Component implements KeyListener, MouseListener,
 
     @Override
     public void mouseDragged(int i, int i1, int i2, int i3) {
+    }
+
+    @Override
+    public void update(int delta) {
+        if (this.delta + delta <= 1000) {
+            if (!this.bar) {
+                this.bar = true;
+            }
+        } else {
+            if (this.bar) {
+                this.bar = false;
+            }
+        }
+        this.delta += delta;
+        if (this.delta >= 2000) {
+            this.delta = 0;
+        }
     }
 
 }

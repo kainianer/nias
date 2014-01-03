@@ -5,41 +5,47 @@
  */
 package de.kraftwerk.states;
 
-import de.kraftwerk.graphics.UserInterface;
-import de.kraftwerk.stateability.Renderable;
-import de.kraftwerk.stateability.Updateable;
+import de.kraftwerk.level.Level;
 import de.kraftwerk.ui.Component;
 import de.kraftwerk.ui.Menu;
+import de.kraftwerk.ui.Menu.MenuType;
+import de.kraftwerk.ui.Notation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
  *
  * @author kainianer
  */
-public class Game extends BasicGameState {
+public class Game extends State {
+
+    public static final int ID = 3;
 
     private final List<Component> compList = new ArrayList<>();
-    private int width;
-    private int height;
+    private final Level level = new Level(16);
 
-    private final GameContainer container;
+    public Game(GameContainer gc, StateBasedGame sbg) {
+        super(Game.ID, gc, sbg);
 
-    public Game(GameContainer container) {
-        this.container = container;
-        this.height = container.getHeight();
-        this.width = container.getWidth();
+        this.level.create();
 
-        Menu test = new Menu(50, 75, 1000, this.height - 150);
-        test.addContinueButton();
-        test.addCancelButton();
-        test.setActive(true);
-        this.compList.add(test);
+        Menu inventory = new Menu(32, 64, gc.getWidth() * 13 / 46, gc.getHeight() - 128, MenuType.MENU_DARK);
+        inventory.addCloseButton();
+        inventory.setActive(true);
+        inventory.setHeader("Inventory");
+
+        Notation note = new Notation("Raheria City", 2000, gc);
+        note.setActive(true);
+
+        this.addComponent(inventory);
+        this.addComponent(note);
+
     }
 
     @Override
@@ -48,36 +54,28 @@ public class Game extends BasicGameState {
     }
 
     @Override
-    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-    }
-
-    @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        for (int i = -64; i < gc.getWidth() + 64; i += 64) {
-            for (int j = -64; j < gc.getHeight() + 64; j += 64) {
-                UserInterface.TEST.getTexture().draw(i, j);
-            }
-        }
-
-        for (Component comp : this.compList) {
-            if (comp instanceof Renderable) {
-                ((Renderable)comp).draw(grphcs);
-            }
-        }
-        
-        
-        grphcs.drawString("FPS: " + gc.getFPS(), 10, 10);
-        grphcs.drawString("MEM: " + ((Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1048576) + " / " + Runtime.getRuntime().maxMemory() / 1048576 + " MB", 10, 25);
-
+        this.level.draw(grphcs);
+        super.render(gc, sbg, grphcs);
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
-        for(Component cmpnt : this.compList) {
-            if(cmpnt instanceof Updateable) {
-                ((Updateable)cmpnt).update();
-            }
-        }
+    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+        super.update(gc, sbg, delta);
+        this.level.update(delta);
     }
 
+    @Override
+    public void keyPressed(int key, char c) {
+        if (key == Input.KEY_ESCAPE) {
+            State state = new Pause(this, this.gc, this.sbg);
+            try {
+                state.init(this.sbg.getContainer(), this.sbg);
+            } catch (SlickException ex) {
+                Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+            this.sbg.addState(state);
+            this.sbg.enterState(Pause.ID);
+        }
+    }
 }

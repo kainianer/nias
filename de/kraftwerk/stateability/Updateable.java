@@ -12,6 +12,6 @@ package de.kraftwerk.stateability;
  */
 public interface Updateable {
     
-    public void update();
+    public void update(int delta);
     
 }

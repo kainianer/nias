@@ -3,7 +3,6 @@
  *  Do not distribute!
  * 
  */
-
 package de.kraftwerk.util;
 
 /**
@@ -11,12 +10,12 @@ package de.kraftwerk.util;
  * @author kainianer
  */
 public class Layout {
-    
+
     private int x;
     private int y;
     private int width;
     private int height;
-    
+
     public Layout(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -79,5 +78,12 @@ public class Layout {
     public void setHeight(int height) {
         this.height = height;
     }
-    
+
+    public void merge(Layout lout) {
+        this.x = lout.getX();
+        this.y = lout.getY();
+        this.width = lout.getWidth();
+        this.height = lout.getHeight();
+    }
+
 }

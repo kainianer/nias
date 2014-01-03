@@ -17,18 +17,26 @@ import org.newdawn.slick.SlickException;
  */
 public enum UserInterface {
 
-    TEST(new Layout(0, 112, 16, 16)),
     MENU_CORNER(new Layout(64, 0, 8, 8)),
     MENU_BORDER_HO(new Layout(64, 1, 2, 1)),
     MENU_BORDER_VE(new Layout(70, 0, 1, 2)),
     MENU_BACKGROUND(new Layout(70, 5, 1, 1)),
+    CARVEDMENU_CORNER(new Layout(64, 32, 8, 8)),
+    CARVEDMENU_BORDER_HO(new Layout(64, 33, 2, 1)),
+    CARVEDMENU_BORDER_VE(new Layout(70, 32, 1, 2)),
+    CARVEDMENU_BACKGROUND(new Layout(70, 37, 1, 1)),
     NOTATION(new Layout(80, 8, 8, 8)),
     BUTTON_NORMAL(new Layout(0, 0, 64, 16)),
     BUTTON_HOVER(new Layout(0, 16, 64, 16)),
     BUTTON_CLICKED(new Layout(0, 32, 64, 16)),
-    TORCHES(new Layout(0, 96, 16, 16)),
     FLAG(new Layout(112, 8, 16, 32)),
-    PLAYER(new Layout(0, 80, 16, 16));
+    CLOSEBUTTON_NORMAL(new Layout(0, 48, 11, 11)),
+    CLOSEBUTTON_CLICKED(new Layout(11, 48, 11, 11)),
+    CLOSEBUTTON_HOVER(new Layout(22, 48, 11, 11)),
+    SLIDE(new Layout(88, 8, 8, 16)),
+    SLIDE_RAIL(new Layout(88, 24, 8, 8)),
+    SLIDE_TOP(new Layout(80, 32, 8, 8)),
+    SLIDE_BOT(new Layout(88, 32, 8, 8));
 
     private Image txtr;
 

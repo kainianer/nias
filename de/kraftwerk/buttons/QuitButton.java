@@ -6,6 +6,8 @@
 package de.kraftwerk.buttons;
 
 import de.kraftwerk.ui.Button;
+import de.kraftwerk.ui.Menu;
+import org.newdawn.slick.GameContainer;
 
 /**
  *
@@ -13,16 +15,19 @@ import de.kraftwerk.ui.Button;
  */
 public class QuitButton extends Button {
 
-    public QuitButton(int x, int y) {
-        super(x, y, "Quit");
+    private final GameContainer gc;
+
+    public QuitButton(int x, int y, Menu menu, GameContainer gc) {
+        super(x, y, "Quit", menu);
+        this.gc = gc;
     }
 
     @Override
-    public void mousePressed(int i, int x, int y) {
-        super.mousePressed(i, x, y);
-        
-        if(this.isClicked(x, y)) {
-            System.exit(0);
+    public void mouseReleased(int i, int x, int y) {
+        super.mouseReleased(i, x, y);
+
+        if (this.isHovered(x, y)) {
+            this.gc.exit();
         }
     }
 

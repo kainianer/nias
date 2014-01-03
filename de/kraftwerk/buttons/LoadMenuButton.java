@@ -13,13 +13,13 @@ import de.kraftwerk.ui.Menu;
  *
  * @author kainianer
  */
-public class NewGameButton extends Button {
+public class LoadMenuButton extends Button {
 
     private final Menu menu;
     private final SingleMenuState state;
 
-    public NewGameButton(int x, int y, Menu contained, Menu menu, SingleMenuState state) {
-        super(x, y, "New Game", contained);
+    public LoadMenuButton(int x, int y, Menu contained, Menu menu, SingleMenuState state) {
+        super(x, y, "Load Game", contained);
         this.menu = menu;
         this.state = state;
     }

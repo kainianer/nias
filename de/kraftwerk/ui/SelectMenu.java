@@ -5,8 +5,10 @@
  */
 package de.kraftwerk.ui;
 
+import de.kraftwerk.graphics.Fonts;
 import de.kraftwerk.stateability.Renderable;
 import de.kraftwerk.stateability.Updateable;
+import de.kraftwerk.ui.Menu.MenuType;
 import de.kraftwerk.util.Layout;
 import java.awt.Rectangle;
 import org.newdawn.slick.Graphics;
@@ -28,20 +30,23 @@ public class SelectMenu extends SubComponent implements MouseListener, Updateabl
 
     private Input input;
 
+    private final String text;
+    
     private final Menu layout;
 
-    public SelectMenu(Layout lout) {
+    public SelectMenu(Layout lout, String text, MenuType type) {
         super(lout);
-        this.layout = new Menu(lout);
+        this.layout = new Menu(lout, type);
         this.yOrg = this.getY();
         this.yAim = this.getHeight() - 64;
+        this.text = text;
     }
 
     @Override
     public void draw(Graphics grphcs) {
         this.layout.draw(grphcs);
-        grphcs.setFont(this.subHeadFont);
-        grphcs.drawString("TEST", this.getX() + (this.getWidth() - grphcs.getFont().getWidth("TEST")) / 2, this.getY() + this.getHeight() - grphcs.getFont().getLineHeight() - 24);
+        grphcs.setFont(Fonts.SUB.getTrueTypeFont());
+        grphcs.drawString(this.text, this.getX() + (this.getWidth() - grphcs.getFont().getWidth(this.text)) / 2, this.getY() + this.getHeight() - grphcs.getFont().getLineHeight() - 24);
     }
 
     /**
@@ -59,7 +64,7 @@ public class SelectMenu extends SubComponent implements MouseListener, Updateabl
     }
 
     @Override
-    public void update() {
+    public void update(int i) {
         if (this.hovered) {
             if (this.getY() + this.getHeight() < this.yAim) {
                 this.setY(this.getY() + (this.yAim - (this.getY() + this.getHeight())) / 8);

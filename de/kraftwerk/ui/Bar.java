@@ -25,7 +25,7 @@ public class Bar extends Component implements Renderable, Updateable {
     }
 
     @Override
-    public void update() {
+    public void update(int i) {
     }
 
 }
