@@ -5,6 +5,7 @@
  */
 package de.kraftwerk.level;
 
+import de.kraftwerk.player.Player;
 import de.kraftwerk.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,8 @@ public class Dungeon extends Level {
     private final int margin;
     private final List<Room> roomList = new ArrayList<>();
 
-    public Dungeon(int size, int rooms, int margin) {
-        super(size);
+    public Dungeon(int size, int rooms, int margin, Player player) {
+        super(size, player);
         this.rooms = rooms;
         this.margin = margin;
     }

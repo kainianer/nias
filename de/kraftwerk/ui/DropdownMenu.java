@@ -6,6 +6,7 @@
 package de.kraftwerk.ui;
 
 import de.kraftwerk.graphics.Fonts;
+import de.kraftwerk.sfx.Sounds;
 import de.kraftwerk.stateability.Renderable;
 import de.kraftwerk.stateability.Updateable;
 import de.kraftwerk.ui.Menu.MenuType;
@@ -14,12 +15,13 @@ import java.awt.Rectangle;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
+import org.newdawn.slick.Sound;
 
 /**
  *
  * @author kainianer
  */
-public class SelectMenu extends SubComponent implements MouseListener, Updateable, Renderable {
+public class DropdownMenu extends SubComponent implements MouseListener, Updateable, Renderable {
 
     private boolean pressed;
     private boolean hovered;
@@ -31,15 +33,17 @@ public class SelectMenu extends SubComponent implements MouseListener, Updateabl
     private Input input;
 
     private final String text;
-    
     private final Menu layout;
 
-    public SelectMenu(Layout lout, String text, MenuType type) {
+    private final Sound sound;
+
+    public DropdownMenu(Layout lout, String text, MenuType type) {
         super(lout);
         this.layout = new Menu(lout, type);
         this.yOrg = this.getY();
         this.yAim = this.getHeight() - 64;
         this.text = text;
+        this.sound = Sounds.DROPDOWN.getSound();
     }
 
     @Override
@@ -97,6 +101,9 @@ public class SelectMenu extends SubComponent implements MouseListener, Updateabl
         if (new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight()).contains(i2, i3)) {
             if (!this.hovered) {
                 this.hovered = true;
+                if (!this.sound.playing()) {
+                    this.sound.play(1f, 0.5f);
+                }
             }
         } else {
             if (this.hovered) {

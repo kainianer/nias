@@ -10,7 +10,7 @@ import de.kraftwerk.graphics.UserInterface;
 import de.kraftwerk.stateability.Renderable;
 import de.kraftwerk.ui.FlagMenu;
 import de.kraftwerk.ui.Menu;
-import de.kraftwerk.ui.SelectMenu;
+import de.kraftwerk.ui.DropdownMenu;
 import de.kraftwerk.ui.SubComponent;
 import de.kraftwerk.ui.TextField;
 import de.kraftwerk.util.Layout;
@@ -31,9 +31,9 @@ public class NewGameMenu extends Menu {
 
     private Animation wiz;
     private Animation ar;
-    private final SelectMenu menu_one;
-    private final SelectMenu menu_two;
-    private final SelectMenu menu_three;
+    private final DropdownMenu menu_one;
+    private final DropdownMenu menu_two;
+    private final DropdownMenu menu_three;
 
     public NewGameMenu(Layout lout, StateBasedGame sbg) {
         super(lout, MenuType.MENU_DARK);
@@ -47,13 +47,13 @@ public class NewGameMenu extends Menu {
         }
 
         int offSet = (this.getWidth() - 3 * 250 - 40) / 2;
-        this.menu_one = new SelectMenu(new Layout(this.getX() + offSet, -300, 250, 500), "Archer", MenuType.MENU_DARK);
+        this.menu_one = new DropdownMenu(new Layout(this.getX() + offSet, -300, 250, 500), "Archer", MenuType.MENU_DARK);
         this.menu_one.setActive(true);
 
-        this.menu_two = new SelectMenu(new Layout(this.menu_one.getX() + this.menu_one.getWidth() + 20, -300, 250, 500), "Knight", MenuType.MENU_DARK);
+        this.menu_two = new DropdownMenu(new Layout(this.menu_one.getX() + this.menu_one.getWidth() + 20, -300, 250, 500), "Knight", MenuType.MENU_DARK);
         this.menu_two.setActive(true);
 
-        this.menu_three = new SelectMenu(new Layout(this.menu_two.getX() + this.menu_two.getWidth() + 20, -300, 250, 500), "Wizard", MenuType.MENU_DARK);
+        this.menu_three = new DropdownMenu(new Layout(this.menu_two.getX() + this.menu_two.getWidth() + 20, -300, 250, 500), "Wizard", MenuType.MENU_DARK);
         this.menu_three.setActive(true);
 
         int xF = this.getX() + offSet;

@@ -21,7 +21,7 @@ import org.newdawn.slick.MouseListener;
  *
  * @author kainianer
  */
-public class InputField extends Component implements KeyListener, MouseListener, Renderable, Updateable {
+public class InputField extends SubComponent implements KeyListener, MouseListener, Renderable, Updateable {
 
     private boolean writing;
     private boolean allSelected;
@@ -32,8 +32,9 @@ public class InputField extends Component implements KeyListener, MouseListener,
     private final boolean pass;
     private int delta;
     private boolean bar;
+    private final String value;
 
-    public InputField(int x, int y, boolean pass, Menu menu) {
+    public InputField(int x, int y, boolean pass, Menu menu, String value) {
         super(new Layout(x, y, UserInterface.BUTTON_NORMAL.getWidth(), UserInterface.BUTTON_NORMAL.getHeight()));
         this.builder = new StringBuilder();
         this.passBuilder = new StringBuilder();
@@ -41,10 +42,11 @@ public class InputField extends Component implements KeyListener, MouseListener,
         this.layout.setHover(true);
         this.layout.setPressed(true);
         this.pass = pass;
+        this.value = value;
     }
 
     private String getText() {
-        if (this.builder.length() <= 24) {
+        if (Fonts.TEXT.getTrueTypeFont().getWidth(this.builder.toString() + " _") < this.getWidth() - 80) {
             if (!this.pass) {
                 return this.builder.toString();
             } else {
@@ -52,9 +54,17 @@ public class InputField extends Component implements KeyListener, MouseListener,
             }
         } else {
             if (!this.pass) {
-                return this.builder.subSequence(this.builder.length() - 25, this.builder.length()).toString();
+                String str = this.builder.toString();
+                for (int i = 0; i < this.builder.length() && Fonts.TEXT.getTrueTypeFont().getWidth(str + " _") > this.getWidth() - 80; i++) {
+                    str = this.builder.substring(i, this.builder.length());
+                }
+                return str;
             } else {
-                return this.passBuilder.subSequence(this.passBuilder.length() - 25, this.passBuilder.length()).toString();
+                String str = this.passBuilder.toString();
+                for (int i = 0; i < this.passBuilder.length() && Fonts.TEXT.getTrueTypeFont().getWidth(str + " _") > this.getWidth() - 80; i++) {
+                    str = this.passBuilder.substring(i, this.passBuilder.length());
+                }
+                return str;
             }
         }
     }
@@ -63,11 +73,16 @@ public class InputField extends Component implements KeyListener, MouseListener,
     public void draw(Graphics grphcs) {
         layout.draw(grphcs);
         grphcs.setFont(Fonts.TEXT.getTrueTypeFont());
-        grphcs.setColor(Color.white);
-        grphcs.drawString(this.getText(), this.getX() + 48, this.getY() + (this.getHeight() - grphcs.getFont().getLineHeight()) / 2);
-        if (this.writing && this.bar) {
-            int width = grphcs.getFont().getWidth(this.getText() + "_") + 48;
-            grphcs.drawString("_", this.getX() + width, this.getY() + (this.getHeight() - grphcs.getFont().getLineHeight()) / 2 + 2);
+        if (!this.writing && this.getText().isEmpty()) {
+            grphcs.setColor(Color.lightGray);
+            grphcs.drawString(this.value, this.getX() + 48, this.getY() + (this.getHeight() - grphcs.getFont().getLineHeight()) / 2);
+        } else {
+            if (this.writing && this.bar) {
+                grphcs.setColor(Color.white);
+                int width = grphcs.getFont().getWidth(this.getText() + "_") + 36;
+                grphcs.drawString("_", this.getX() + width, this.getY() + (this.getHeight() - grphcs.getFont().getLineHeight()) / 2);
+            }
+            grphcs.drawString(this.getText(), this.getX() + 48, this.getY() + (this.getHeight() - grphcs.getFont().getLineHeight()) / 2);
         }
     }
 
@@ -161,4 +176,8 @@ public class InputField extends Component implements KeyListener, MouseListener,
         }
     }
 
+    public String getInput() {
+        return this.builder.toString();
+    }
+    
 }

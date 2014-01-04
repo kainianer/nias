@@ -7,6 +7,7 @@ package de.kraftwerk.ui;
 
 import de.kraftwerk.graphics.Fonts;
 import de.kraftwerk.graphics.UserInterface;
+import de.kraftwerk.sfx.Sounds;
 import de.kraftwerk.stateability.Renderable;
 import de.kraftwerk.util.Layout;
 import java.awt.Rectangle;
@@ -30,19 +31,15 @@ public class Button extends SubComponent implements MouseListener, Renderable {
     private final String value;
     private Input input;
     private final Menu contained;
-    private Sound click1;
-    private Sound click2;
-    
+    private final Sound click1;
+    private final Sound click2;
+
     public Button(int x, int y, String value, Menu contained) {
         super(new Layout(x, y, UserInterface.BUTTON_NORMAL.getWidth(), UserInterface.BUTTON_NORMAL.getHeight()));
         this.value = value;
         this.contained = contained;
-        try {
-            this.click1 = new Sound("/res/sfx/click1.aif");
-            this.click2 = new Sound("/res/sfx/click2.aif");
-        } catch (SlickException ex) {
-            Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.click1 = Sounds.CLICK1.getSound();
+        this.click2 = Sounds.CLICK2.getSound();
     }
 
     @Override
@@ -79,7 +76,7 @@ public class Button extends SubComponent implements MouseListener, Renderable {
             if (!this.pressed) {
                 this.pressed = true;
             }
-            this.click1.play(0.5f, 0.5f);
+            this.click2.play(1f, 0.5f);
         }
     }
 
@@ -87,8 +84,7 @@ public class Button extends SubComponent implements MouseListener, Renderable {
     public void mouseReleased(int i, int i1, int i2) {
         if (this.pressed) {
             this.pressed = false;
-            
-            this.click2.play(0.5f, 0.5f);
+            this.click2.play(1f, 0.5f);
         }
     }
 
@@ -134,7 +130,7 @@ public class Button extends SubComponent implements MouseListener, Renderable {
     public void setPressed(boolean pressed) {
         this.pressed = pressed;
     }
-    
+
     public boolean isPressed() {
         return this.pressed;
     }

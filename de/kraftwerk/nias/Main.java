@@ -32,12 +32,6 @@ public class Main {
         game.setShowFPS(false);
         game.setUpdateOnlyWhenVisible(false);
         game.setAlwaysRender(true);
-        try {
-            Thread.sleep(450);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        SplashScreen.getSplashScreen().close();
         game.start();
     }
 }

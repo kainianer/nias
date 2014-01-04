@@ -5,6 +5,7 @@
  */
 package de.kraftwerk.level;
 
+import de.kraftwerk.player.Player;
 import de.kraftwerk.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,15 @@ public class Forest extends Level {
     private final int minSize;
     private final int maxSize;
 
-    public Forest(int size, int rooms, int margin, int minSize, int maxSize) {
-        super(size);
+    public Forest(int size, int rooms, int margin, int minSize, int maxSize, Player player) {
+        super(size, player);
         this.roomValue = rooms;
         this.margin = margin;
         this.minSize = minSize + 2;
         this.maxSize = maxSize + 2;
     }
 
+    @Override
     public void create() {
         this.initTreess();
         this.proof();

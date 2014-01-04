@@ -30,13 +30,14 @@ public enum UserInterface {
     BUTTON_HOVER(new Layout(0, 16, 64, 16)),
     BUTTON_CLICKED(new Layout(0, 32, 64, 16)),
     FLAG(new Layout(112, 8, 16, 32)),
-    CLOSEBUTTON_NORMAL(new Layout(0, 48, 11, 11)),
-    CLOSEBUTTON_CLICKED(new Layout(11, 48, 11, 11)),
-    CLOSEBUTTON_HOVER(new Layout(22, 48, 11, 11)),
+    CLOSEBUTTON_NORMAL(new Layout(0, 48, 8, 8)),
+    CLOSEBUTTON_CLICKED(new Layout(8, 48, 8, 8)),
+    CLOSEBUTTON_HOVER(new Layout(16, 48, 8, 8)),
     SLIDE(new Layout(88, 8, 8, 16)),
     SLIDE_RAIL(new Layout(88, 24, 8, 8)),
     SLIDE_TOP(new Layout(80, 32, 8, 8)),
-    SLIDE_BOT(new Layout(88, 32, 8, 8));
+    SLIDE_BOT(new Layout(88, 32, 8, 8)),
+    SPELLBAR(new Layout(0, 56, 16, 16));
 
     private Image txtr;
 

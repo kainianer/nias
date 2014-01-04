@@ -6,32 +6,33 @@
 package de.kraftwerk.level;
 
 import de.kraftwerk.graphics.TextureAtlas;
-import de.kraftwerk.stateability.Renderable;
-import de.kraftwerk.stateability.Updateable;
-import de.kraftwerk.ui.Notation;
+import de.kraftwerk.player.Player;
 import java.util.Random;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 /**
  *
  * @author kainianer
  */
-public class Level implements Renderable, Updateable {
+public class Level {
 
     private final int[][] level;
     private int size;
-    private int delta;
-    private Notation note;
-    
-    public Level(int size) {
+
+    private final Player player;
+
+    public Level(int size, Player player) {
         this.size = size;
         this.level = new int[size][size];
+        this.player = player;
     }
 
     public void create() {
         for (int i = 0; i < this.level.length; i++) {
             for (int j = 0; j < this.level[i].length; j++) {
-                this.level[i][j] = 0;
+                TextureAtlas[] at = TextureAtlas.values();
+                this.level[i][j] = new Random().nextInt(at.length - 1);
             }
         }
     }
@@ -59,34 +60,27 @@ public class Level implements Renderable, Updateable {
         this.size = size;
     }
 
-    @Override
-    public void draw(Graphics grphcs) {
-        for (int i = 0; i < this.level.length; i++) {
-            for (int j = 0; j < this.level[i].length; j++) {
-                TextureAtlas.getById(this.level[i][j]).getTexture().draw(i * 80, j * 80);
+    public void draw(Graphics grphcs, GameContainer gc) {
+        int startX = this.player.getX() / 80 + 1;
+        int startY = this.player.getY() / 80 + 1;
+        int endX = startX + gc.getWidth() / 80 + 1;
+        int endY = startY + gc.getHeight() / 80 + 1;
+        int xOff = this.player.getX() % 80;
+        int yOff = this.player.getY() % 80;
+
+        for (int xx = startX, i = 0; xx < endX; xx++, i++) {
+            for (int yy = startY, j = 0; yy < endY; yy++, j++) {
+                if (xx > 0 && yy > 0 && xx < this.level.length && yy < this.level[i].length) {
+                    TextureAtlas.getById(this.level[xx][yy]).getTexture().draw(i * 80 - xOff, j * 80 - yOff);
+                }
             }
         }
+        this.player.draw(grphcs);
     }
 
-    @Override
-    public void update(int delta) {
-//        if (this.delta + delta >= 400) {
-//            for (int i = 0; i < this.level.length; i++) {
-//                for (int j = 0; j < this.level[i].length; j++) {
-//                    if (this.level[i][j] > 7 && this.level[i][j] < 11) {
-//                        this.level[i][j] += 1;
-//                    } else if (this.level[i][j] == 11) {
-//                        if (new Random().nextInt(9) == 1) {
-//                            this.level[i][j] = 8;
-//                        }
-//                    }
-//                }
-//            }
-//            this.delta = 0;
-//        } else {
-//            this.delta += delta;
-//        }
-        
-    }
+    public void update(int delta, int x, int y) {
+        this.player.setX(x);
+        this.player.setY(y);
 
+    }
 }

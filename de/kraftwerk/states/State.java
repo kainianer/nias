@@ -54,7 +54,7 @@ public class State extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         gc.getInput().removeAllListeners();
         gc.getInput().addKeyListener(this);
-
+        gc.getInput().addKeyListener(sbg);
         for (Component comp : this.compList) {
             if (comp.hasSubComponents()) {
                 for (SubComponent sub : comp.getSubCmpnt()) {

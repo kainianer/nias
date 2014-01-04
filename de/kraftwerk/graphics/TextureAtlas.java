@@ -24,10 +24,7 @@ public enum TextureAtlas {
     FLOOR_PATTERN(80, 112, 16, 16, 5),
     CARPET_RED(96, 112, 16, 16, 6),
     FLOOR_BRICK(112, 112, 16, 16, 7),
-    WATER_1(64, 96, 16, 16, 8),
-    WATER_2(82, 96, 16, 16, 9),
-    WATER_3(96, 96, 16, 16, 10),
-    WATER_6(112, 96, 16, 16, 11);
+    WATER(112, 96, 16, 16, 11);
 
     private Image texture;
     private final int id;

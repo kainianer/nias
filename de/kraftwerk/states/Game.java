@@ -5,7 +5,9 @@
  */
 package de.kraftwerk.states;
 
+import de.kraftwerk.graphics.UserInterface;
 import de.kraftwerk.level.Level;
+import de.kraftwerk.player.Player;
 import de.kraftwerk.ui.Component;
 import de.kraftwerk.ui.Menu;
 import de.kraftwerk.ui.Menu.MenuType;
@@ -26,21 +28,23 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Game extends State {
 
     public static final int ID = 3;
-
     private final List<Component> compList = new ArrayList<>();
-    private final Level level = new Level(16);
+
+    private int x;
+    private int y;
+
+    private final Level level;
 
     public Game(GameContainer gc, StateBasedGame sbg) {
         super(Game.ID, gc, sbg);
 
+        this.level = new Level(32, new Player("kainianer"));
         this.level.create();
-
         Menu inventory = new Menu(32, 64, gc.getWidth() * 13 / 46, gc.getHeight() - 128, MenuType.MENU_DARK);
         inventory.addCloseButton();
-        inventory.setActive(true);
         inventory.setHeader("Inventory");
 
-        Notation note = new Notation("Raheria City", 2000, gc);
+        Notation note = new Notation("Raheria", 2000, gc);
         note.setActive(true);
 
         this.addComponent(inventory);
@@ -49,20 +53,33 @@ public class Game extends State {
     }
 
     @Override
-    public int getID() {
-        return 3;
-    }
-
-    @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        this.level.draw(grphcs);
+        this.level.draw(grphcs, gc);
         super.render(gc, sbg, grphcs);
+        int xOff = (gc.getWidth() - 5 * UserInterface.SPELLBAR.getWidth() - 25) / 2;
+        int yOff = gc.getHeight() - UserInterface.SPELLBAR.getHeight();
+        for (int i = 0; i < 5; i++) {
+            UserInterface.SPELLBAR.getTexture().draw(xOff + i * UserInterface.SPELLBAR.getWidth() + i * 5, yOff);
+        }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         super.update(gc, sbg, delta);
-        this.level.update(delta);
+        this.level.update(delta, this.x, this.y);
+
+        if (gc.getInput().isKeyDown(Input.KEY_S)) {
+            this.y += 1000 * delta / 1000 / 4;
+        }
+        if (gc.getInput().isKeyDown(Input.KEY_D)) {
+            this.x += 1000 * delta / 1000 / 4;
+        }
+        if (gc.getInput().isKeyDown(Input.KEY_W)) {
+            this.y -= 1000 * delta / 1000 / 4;
+        }
+        if (gc.getInput().isKeyDown(Input.KEY_A)) {
+            this.x -= 1000 * delta / 1000 / 4;
+        }
     }
 
     @Override
