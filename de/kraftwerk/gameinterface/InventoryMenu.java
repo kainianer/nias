@@ -34,6 +34,7 @@ public class InventoryMenu extends Menu {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
                 Slot slot = new Slot(off + i * UserInterface.SLOT.getWidth(), this.getY() + this.getHeight() - 32 - (j + 1) * UserInterface.SLOT.getHeight(), this);
+                slot.setItem(Item.drop());
                 this.slots.add(slot);
                 this.add(slot);
             }
@@ -43,15 +44,9 @@ public class InventoryMenu extends Menu {
     @Override
     public void draw(Graphics grphcs) {
         super.draw(grphcs);
-        int off = this.getX() + (this.getWidth() - 5 * UserInterface.SLOT.getWidth()) / 2;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
-                Slot slot = this.slots.get(i * j + j);
-                slot.draw(grphcs);
-                if (slot.containsItem()) {
-                    slot.getItem().getIcon().draw(slot.getX() + 10, slot.getY() + 10);
-                }
-            }
+        for (int i= this.slots.size()-1; i >= 0; i--) {
+            Slot slot = this.slots.get(i);
+            slot.draw(grphcs);
         }
     }
 

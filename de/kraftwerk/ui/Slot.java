@@ -18,6 +18,8 @@ public class Slot extends Button {
 
     private Item containedItem;
     private final InventoryMenu menu;
+    private int mouseX;
+    private int mouseY;
 
     public Slot(int x, int y, InventoryMenu menu) {
         super(new Layout(x, y, UserInterface.SLOT.getWidth(), UserInterface.SLOT.getHeight()), menu);
@@ -27,18 +29,27 @@ public class Slot extends Button {
     @Override
     public void draw(Graphics grphcs) {
         UserInterface.SLOT.getTexture().draw(this.getX(), this.getY());
+        if (this.containsItem()) {
+            this.containedItem.getIcon().draw(this.getX() + 10, this.getY() + 10);
+        }
+        if (this.isHovered()) {
+            this.containedItem.drawHover(grphcs, this.mouseX, this.mouseY);
+        }
     }
 
     @Override
     public void mouseMoved(int i, int k, int x, int y) {
+        super.mouseMoved(i, k, x, y);
         if (this.menu.isActive()) {
             if (this.isHovered(x, y)) {
+                this.mouseX = x;
+                this.mouseY = y;
             }
         }
     }
 
     @Override
-    public void mousePressed(int i, int x, int y) {
+    public void mouseReleased(int i, int x, int y) {
         if (this.menu.isActive()) {
             if (this.isHovered(x, y)) {
             }

@@ -6,7 +6,6 @@
 package de.kraftwerk.graphics;
 
 import de.kraftwerk.stateability.Renderable;
-import de.kraftwerk.stateability.Updateable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Animation;

@@ -21,6 +21,9 @@ public enum UserInterface {
     MENU_BORDER_HO(new Layout(64, 1, 2, 1)),
     MENU_BORDER_VE(new Layout(70, 0, 1, 2)),
     MENU_BACKGROUND(new Layout(70, 5, 1, 1)),
+    ITEMHOVER_CORNER(new Layout(112, 0, 2, 2)),
+    ITEMHOVER_HO(new Layout(113, 0, 5, 1)),
+    ITEMHOVER_VE(new Layout(112, 1, 1, 5)),
     CARVEDMENU_CORNER(new Layout(64, 32, 8, 8)),
     CARVEDMENU_BORDER_HO(new Layout(64, 33, 2, 1)),
     CARVEDMENU_BORDER_VE(new Layout(70, 32, 1, 2)),
@@ -42,9 +45,9 @@ public enum UserInterface {
     BAR_BG(new Layout(88, 0, 8, 8)),
     BAR_RIGHT(new Layout(96, 0, 8, 8)),
     SLOT(new Layout(2, 58, 12, 12)),
-    HEALTHBAR(new Layout(104,0,1,6)),
-    MANABAR(new Layout(106,0,1,6)),
-    CASTBAR(new Layout(105,0,1,6));
+    HEALTHBAR(new Layout(104, 0, 1, 6)),
+    MANABAR(new Layout(106, 0, 1, 6)),
+    CASTBAR(new Layout(105, 0, 1, 6));
 
     private Image txtr;
 
