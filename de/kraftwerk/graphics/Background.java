@@ -30,7 +30,7 @@ public class Background implements Renderable {
         Image[] images = new Image[7];
         for (int i = 0; i < 7; i++) {
             try {
-                Image image = new Image("/res/background/frame_" + i + ".png");
+                Image image = new Image("res/background/frame_" + i + ".png");
                 image.setFilter(Image.FILTER_NEAREST);
                 images[i] = image;
             } catch (SlickException ex) {

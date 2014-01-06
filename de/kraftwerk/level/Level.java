@@ -36,7 +36,6 @@ public class Level {
     public void create() {
         for (int i = 0; i < this.level.length; i++) {
             for (int j = 0; j < this.level[i].length; j++) {
-                //TextureAtlas[] at = TextureAtlas.values();
                 this.level[i][j] = 0;
             }
         }
@@ -104,12 +103,11 @@ public class Level {
             this.player.left = xOld > x;
             this.player.up = yOld > y;
             this.player.down = yOld < y;
-
         }
         this.player.update(delta);
         this.note.update(delta);
     }
-    
+
     public Notation getNote() {
         return this.note;
     }

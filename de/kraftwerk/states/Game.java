@@ -32,9 +32,9 @@ public class Game extends State {
     private final Player player;
     private final GameInterface gameInterface;
 
-    public Game(GameContainer gc, StateBasedGame sbg) {
+    public Game(GameContainer gc, StateBasedGame sbg, String name) {
         super(Game.ID, gc, sbg);
-        this.player = new Player("kainianer");
+        this.player = new Player(name);
         this.gameInterface = new GameInterface(this.player);
         this.level = new Level(32, player, gc, "Raheria");
         this.level.create();

@@ -28,7 +28,7 @@ public enum Fonts {
 
     private Fonts(String res, float f) {
         try {
-            this.font = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("/res/fonts/" + res));
+            this.font = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("res/fonts/" + res));
         } catch (FontFormatException | IOException ex) {
             Logger.getLogger(Fonts.class.getName()).log(Level.SEVERE, null, ex);
         }

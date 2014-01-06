@@ -50,7 +50,7 @@ public enum UserInterface {
 
     private UserInterface(Layout lout) {
         try {
-            txtr = new Image("/res/sprite.png").getSubImage(lout.getX(), lout.getY(), lout.getWidth(), lout.getHeight());
+            txtr = new Image("res/sprite.png").getSubImage(lout.getX(), lout.getY(), lout.getWidth(), lout.getHeight());
             txtr.setFilter(Image.FILTER_NEAREST);
             txtr = txtr.getScaledCopy(5f);
         } catch (SlickException ex) {

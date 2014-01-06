@@ -32,7 +32,7 @@ public enum TextureAtlas {
     private TextureAtlas(int x, int y, int width, int height, int id) {
         this.id = id;
         try {
-            this.texture = new Image("/res/sprite.png").getSubImage(x, y, width, height).getScaledCopy(5f);
+            this.texture = new Image("res/sprite.png").getSubImage(x, y, width, height).getScaledCopy(5f);
         } catch (SlickException ex) {
             Logger.getLogger(TextureAtlas.class.getName()).log(Level.SEVERE, null, ex);
         }

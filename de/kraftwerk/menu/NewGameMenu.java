@@ -11,6 +11,7 @@ import de.kraftwerk.stateability.Renderable;
 import de.kraftwerk.ui.FlagMenu;
 import de.kraftwerk.ui.Menu;
 import de.kraftwerk.ui.DropdownMenu;
+import de.kraftwerk.ui.InputField;
 import de.kraftwerk.ui.SubComponent;
 import de.kraftwerk.ui.TextField;
 import de.kraftwerk.util.Layout;
@@ -30,7 +31,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class NewGameMenu extends Menu {
 
     private Animation wiz;
-    private Animation ar;
     private final DropdownMenu menu_one;
     private final DropdownMenu menu_two;
     private final DropdownMenu menu_three;
@@ -38,10 +38,8 @@ public class NewGameMenu extends Menu {
     public NewGameMenu(Layout lout, StateBasedGame sbg) {
         super(lout, MenuType.MENU_DARK);
         try {
-            SpriteSheet sprite = new SpriteSheet(new Image("/res/sprite.png").getSubImage(0, 72, 32, 16).getScaledCopy(5f), 80, 80);
-//            SpriteSheet sprite_two = new SpriteSheet(new Image("/res/sprite.png").getSubImage(32, 80, 32, 16).getScaledCopy(5f), 80, 80);
+            SpriteSheet sprite = new SpriteSheet(new Image("res/sprite.png").getSubImage(0, 72, 32, 16).getScaledCopy(5f), 80, 80);
             this.wiz = new Animation(sprite, 1000);
-//            this.ar = new Animation(sprite_two, 1200);
         } catch (SlickException ex) {
             Logger.getLogger(NewGameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,7 +65,9 @@ public class NewGameMenu extends Menu {
         String text = "Choose a class but choose wisely because you can only create on character at a time. Hover over the models in order to see further information about the class.";
         TextField field = new TextField(new Layout(xF + 16 + UserInterface.FLAG.getWidth(), yF, widthF - (UserInterface.FLAG.getWidth() + UserInterface.BUTTON_HOVER.getWidth() - 16), heightF), text, 16, false);
         field.addString("Let the hack begin!");
-        CreateGameButton cgb = new CreateGameButton(flagMenu.getX() + flagMenu.getWidth() - UserInterface.BUTTON_NORMAL.getWidth(), flagMenu.getY() + 16, sbg, this);
+        InputField input = new InputField(flagMenu.getX() + flagMenu.getWidth() - UserInterface.BUTTON_NORMAL.getWidth(), flagMenu.getY() + 24, false, this, "Name");
+        input.setActive(true);
+        CreateGameButton cgb = new CreateGameButton(input.getX(), input.getY() + input.getHeight() - 8, sbg, this, input);
 
         this.add(this.menu_one);
         this.add(this.menu_two);
@@ -75,6 +75,7 @@ public class NewGameMenu extends Menu {
         this.add(flagMenu);
         this.add(field);
         this.add(cgb);
+        this.add(input);
     }
 
     @Override
@@ -87,7 +88,5 @@ public class NewGameMenu extends Menu {
         int xOff = (this.menu_one.getWidth() - this.wiz.getImage(0).getWidth()) / 2;
         int yOff = this.wiz.getImage(0).getHeight() * 2;
         this.wiz.draw(this.menu_one.getX() + xOff, this.menu_one.getY() + this.menu_one.getHeight() - yOff);
-//        this.ar.draw(this.menu_two.getX() + xOff, this.menu_two.getY() + this.menu_one.getHeight() - yOff);
-//        this.wiz.draw(this.menu_three.getX() + xOff, this.menu_three.getY() + this.menu_one.getHeight() - yOff);
     }
 }

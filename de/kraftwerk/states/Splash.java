@@ -4,7 +4,6 @@
  * 
  */
 package de.kraftwerk.states;
-
 import de.kraftwerk.sfx.Sounds;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -26,7 +25,7 @@ public class Splash extends State {
 
     public Splash(GameContainer gc, StateBasedGame sbg) throws SlickException {
         super(0, gc, sbg);
-        this.screen = new Image("/res/splash/screen.png");
+        this.screen = new Image("res/splash/screen.png");
         this.sound = Sounds.START.getSound();
     }
 

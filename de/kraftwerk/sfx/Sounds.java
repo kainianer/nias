@@ -25,7 +25,7 @@ public enum Sounds {
 
     private Sounds(String res) {
         try {
-            this.sound = new Sound("/res/sfx/" + res);
+            this.sound = new Sound("res/sfx/" + res);
         } catch (SlickException ex) {
             Logger.getLogger(Sounds.class.getName()).log(Level.SEVERE, null, ex);
         }

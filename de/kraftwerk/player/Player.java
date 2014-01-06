@@ -49,9 +49,9 @@ public class Player implements Updateable {
         this.name = name;
         try {
 
-            this.shadow = new Image("/res/sprite.png").getSubImage(96, 96, 16, 8).getScaledCopy(5f);
+            this.shadow = new Image("res/sprite.png").getSubImage(96, 96, 16, 8).getScaledCopy(5f);
 
-            Image image = new Image("/res/sprite.png").getSubImage(0, 72, 96, 16).getScaledCopy(5f);
+            Image image = new Image("res/sprite.png").getSubImage(0, 72, 96, 16).getScaledCopy(5f);
             SpriteSheet stands = new SpriteSheet(image.getSubImage(0, 0, 160, 80), 80, 80);
             SpriteSheet downs = new SpriteSheet(image.getSubImage(160, 0, 160, 80), 80, 80);
             SpriteSheet rights = new SpriteSheet(image.getSubImage(320, 0, 160, 80), 80, 80);

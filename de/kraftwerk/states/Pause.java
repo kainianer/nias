@@ -5,7 +5,9 @@
  */
 package de.kraftwerk.states;
 
+import de.kraftwerk.buttons.BackTitleButton;
 import de.kraftwerk.buttons.QuitButton;
+import de.kraftwerk.buttons.ResumeButton;
 import de.kraftwerk.graphics.UserInterface;
 import de.kraftwerk.ui.Menu;
 import de.kraftwerk.ui.Menu.MenuType;
@@ -28,14 +30,20 @@ public class Pause extends State {
     public static final int ID = 4;
 
     private final Game game;
+    private final StateBasedGame sbg;
 
     public Pause(Game game, GameContainer gc, StateBasedGame sbg) {
         super(Pause.ID, gc, sbg);
         this.game = game;
-
+        this.sbg = sbg;
         Menu menu = new Menu(new Layout(gc.getWidth() / 2 - 150, -32, 300, gc.getHeight() + 64), MenuType.MENU_DARK);
         menu.setActive(true);
-        menu.add(new QuitButton(menu.getX() + (menu.getWidth() - UserInterface.BUTTON_NORMAL.getWidth()) / 2, 450, menu, gc));
+        ResumeButton resume = new ResumeButton(menu.getX() + (menu.getWidth() - UserInterface.BUTTON_NORMAL.getWidth()) / 2, 250, menu, sbg);
+        BackTitleButton back = new BackTitleButton(resume.getX(), resume.getY() + resume.getHeight(), menu, sbg);
+        QuitButton quit = new QuitButton(back.getX(), back.getY() + back.getHeight(), menu, gc);
+        menu.add(resume);
+        menu.add(quit);
+        menu.add(back);
         this.addComponent(menu);
     }
 
