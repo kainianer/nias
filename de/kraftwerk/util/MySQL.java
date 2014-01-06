@@ -17,18 +17,17 @@ import java.util.logging.Logger;
  */
 public class MySQL {
 
-    private Connection con;
-
     public void MySQL() {
 
     }
 
-    public void connect() {
+    public Connection connect() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            this.con = DriverManager.getConnection("jdbc:mysql://localhost/dev?user=root&password=dHzn56");
+            return DriverManager.getConnection("jdbc:mysql://db4free.net:3306/niasdevusers?user=niasdev&password=dHzn56");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 

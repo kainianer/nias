@@ -32,7 +32,7 @@ public class Splash extends State {
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        this.sound.play(1f, 0.5f);
+        this.sound.play(1f, 0.25f);
     }
 
     @Override

@@ -11,13 +11,10 @@ import de.kraftwerk.sfx.Sounds;
 import de.kraftwerk.stateability.Renderable;
 import de.kraftwerk.util.Layout;
 import java.awt.Rectangle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 /**
@@ -37,6 +34,14 @@ public class Button extends SubComponent implements MouseListener, Renderable {
     public Button(int x, int y, String value, Menu contained) {
         super(new Layout(x, y, UserInterface.BUTTON_NORMAL.getWidth(), UserInterface.BUTTON_NORMAL.getHeight()));
         this.value = value;
+        this.contained = contained;
+        this.click1 = Sounds.CLICK1.getSound();
+        this.click2 = Sounds.CLICK2.getSound();
+    }
+
+    public Button(Layout layout, Menu contained) {
+        super(layout);
+        this.value = "";
         this.contained = contained;
         this.click1 = Sounds.CLICK1.getSound();
         this.click2 = Sounds.CLICK2.getSound();

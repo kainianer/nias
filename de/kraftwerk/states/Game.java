@@ -5,16 +5,14 @@
  */
 package de.kraftwerk.states;
 
-import de.kraftwerk.graphics.UserInterface;
+import de.kraftwerk.gameinterface.GameInterface;
 import de.kraftwerk.level.Level;
 import de.kraftwerk.player.Player;
 import de.kraftwerk.ui.Component;
-import de.kraftwerk.ui.Menu;
-import de.kraftwerk.ui.Menu.MenuType;
-import de.kraftwerk.ui.Notation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -30,69 +28,85 @@ public class Game extends State {
     public static final int ID = 3;
     private final List<Component> compList = new ArrayList<>();
 
-    private int x;
-    private int y;
-
     private final Level level;
+    private final Player player;
+    private final GameInterface gameInterface;
 
     public Game(GameContainer gc, StateBasedGame sbg) {
         super(Game.ID, gc, sbg);
-
-        this.level = new Level(32, new Player("kainianer"));
+        this.player = new Player("kainianer");
+        this.gameInterface = new GameInterface(this.player);
+        this.level = new Level(32, player, gc, "Raheria");
         this.level.create();
-        Menu inventory = new Menu(32, 64, gc.getWidth() * 13 / 46, gc.getHeight() - 128, MenuType.MENU_DARK);
-        inventory.addCloseButton();
-        inventory.setHeader("Inventory");
+    }
 
-        Notation note = new Notation("Raheria", 2000, gc);
-        note.setActive(true);
-
-        this.addComponent(inventory);
-        this.addComponent(note);
-
+    @Override
+    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        super.init(gc, sbg);
+        this.gameInterface.initListener(gc);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
         this.level.draw(grphcs, gc);
-        super.render(gc, sbg, grphcs);
-        int xOff = (gc.getWidth() - 5 * UserInterface.SPELLBAR.getWidth() - 25) / 2;
-        int yOff = gc.getHeight() - UserInterface.SPELLBAR.getHeight();
-        for (int i = 0; i < 5; i++) {
-            UserInterface.SPELLBAR.getTexture().draw(xOff + i * UserInterface.SPELLBAR.getWidth() + i * 5, yOff);
+        for (int x = 0; x < gc.getWidth() / 40; x++) {
+            for (int y = 0; y < gc.getHeight() / 40; y++) {
+                int centerX = (this.player.getRealX() - this.player.getX() + gc.getWidth()) / 40 / 2;
+                int centerY = (this.player.getRealY() - this.player.getY() + gc.getHeight()) / 40 / 2;
+                int maxDistance = 4;
+                int distance = (int) Math.sqrt(Math.abs((x - (centerX - maxDistance)) * (x - (centerX + maxDistance)) + (y - (centerY - maxDistance)) * (y - (centerY + maxDistance))));
+                int alpha = (distance - maxDistance * 2) * 10;
+                grphcs.setColor(new Color(0, 0, 0, alpha));
+                grphcs.fillRect(x * 40, y * 40, 40, 40);
+            }
         }
+
+        this.gameInterface.draw(grphcs);
+        this.level.getNote().draw(grphcs);
+        super.render(gc, sbg, grphcs);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         super.update(gc, sbg, delta);
-        this.level.update(delta, this.x, this.y);
 
+        int x = this.player.getRealX();
+        int y = this.player.getRealY();
         if (gc.getInput().isKeyDown(Input.KEY_S)) {
-            this.y += 1000 * delta / 1000 / 4;
+            y += 900 * delta / 1000 / 4;
         }
         if (gc.getInput().isKeyDown(Input.KEY_D)) {
-            this.x += 1000 * delta / 1000 / 4;
+            x += 900 * delta / 1000 / 4;
         }
         if (gc.getInput().isKeyDown(Input.KEY_W)) {
-            this.y -= 1000 * delta / 1000 / 4;
+            y -= 900 * delta / 1000 / 4;
         }
         if (gc.getInput().isKeyDown(Input.KEY_A)) {
-            this.x -= 1000 * delta / 1000 / 4;
+            x -= 900 * delta / 1000 / 4;
         }
+        this.level.update(delta, x, y);
     }
 
     @Override
     public void keyPressed(int key, char c) {
-        if (key == Input.KEY_ESCAPE) {
-            State state = new Pause(this, this.gc, this.sbg);
-            try {
-                state.init(this.sbg.getContainer(), this.sbg);
-            } catch (SlickException ex) {
-                Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-            this.sbg.addState(state);
-            this.sbg.enterState(Pause.ID);
+        switch (key) {
+            case Input.KEY_ESCAPE:
+
+                State state = new Pause(this, this.gc, this.sbg);
+                try {
+                    state.init(this.sbg.getContainer(), this.sbg);
+                } catch (SlickException ex) {
+                    Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                this.sbg.addState(state);
+                this.sbg.enterState(Pause.ID);
+                break;
+            case Input.KEY_B:
+                this.gameInterface.setInventoryVisibility(!this.gameInterface.getInventoryVisibility());
+                break;
+            case Input.KEY_L:
+                this.gameInterface.setTreeVisibility(!this.gameInterface.getTreeVisibility());
+                break;
         }
     }
 }

@@ -5,10 +5,12 @@
  */
 package de.kraftwerk.player;
 
-import de.kraftwerk.stateability.Renderable;
+import de.kraftwerk.graphics.Fonts;
+import de.kraftwerk.stateability.Updateable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -18,7 +20,7 @@ import org.newdawn.slick.SpriteSheet;
  *
  * @author kainianer
  */
-public class Player implements Renderable {
+public class Player implements Updateable {
 
     private int x;
     private int y;
@@ -26,24 +28,54 @@ public class Player implements Renderable {
     private int xOff;
     private int yOff;
 
-    private Animation an;
+    public Animation standa;
+    public Animation upa;
+    public Animation downa;
+    public Animation lefta;
+    public Animation righta;
+    public Animation an;
+
     private String name;
 
-    private boolean bound;
-    
+    public boolean left;
+    public boolean right;
+    public boolean up;
+    public boolean down;
+
+    public boolean moved;
+    public Image shadow;
+
     public Player(String name) {
         this.name = name;
         try {
-            SpriteSheet sprite = new SpriteSheet(new Image("/res/sprite.png").getSubImage(0, 80, 32, 16).getScaledCopy(5f), 80, 80);
-            this.an = new Animation(sprite, 1500);
+
+            this.shadow = new Image("/res/sprite.png").getSubImage(96, 96, 16, 8).getScaledCopy(5f);
+
+            Image image = new Image("/res/sprite.png").getSubImage(0, 72, 96, 16).getScaledCopy(5f);
+            SpriteSheet stands = new SpriteSheet(image.getSubImage(0, 0, 160, 80), 80, 80);
+            SpriteSheet downs = new SpriteSheet(image.getSubImage(160, 0, 160, 80), 80, 80);
+            SpriteSheet rights = new SpriteSheet(image.getSubImage(320, 0, 160, 80), 80, 80);
+            SpriteSheet ups = new SpriteSheet(image.getSubImage(480, 0, 160, 80), 80, 80);
+            SpriteSheet lefts = new SpriteSheet(rights.getFlippedCopy(true, false), 80, 80);
+
+            this.standa = new Animation(stands, 1000);
+            this.downa = new Animation(downs, 400);
+            this.upa = new Animation(ups, 400);
+            this.lefta = new Animation(lefts, 400);
+            this.righta = new Animation(rights, 400);
+
+            this.an = this.standa;
+
         } catch (SlickException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    @Override
-    public void draw(Graphics grphcs) {
-        this.an.draw(640 + this.xOff, 360 + this.yOff);
+    public void draw(Graphics grphcs, GameContainer gc) {
+        grphcs.setFont(Fonts.TEXT.getTrueTypeFont());
+        grphcs.drawString(name, gc.getWidth() / 2 - grphcs.getFont().getWidth(name) / 2 + this.xOff, gc.getHeight() / 2 - 64 + this.yOff);
+        this.an.draw((gc.getWidth() - an.getCurrentFrame().getWidth()) / 2 + this.xOff, (gc.getHeight() - an.getCurrentFrame().getHeight()) / 2 + this.yOff);
+        this.shadow.draw((gc.getWidth() - this.shadow.getWidth()) / 2 + this.xOff, (gc.getHeight() - this.shadow.getHeight()) / 2 + this.yOff + 43);
     }
 
     /**
@@ -116,18 +148,31 @@ public class Player implements Renderable {
         this.yOff = yOff;
     }
 
-    /**
-     * @return the bound
-     */
-    public boolean isBound() {
-        return bound;
+    public int getRealX() {
+        return this.x + this.xOff;
     }
 
-    /**
-     * @param bound the bound to set
-     */
-    public void setBound(boolean bound) {
-        this.bound = bound;
+    public int getRealY() {
+        return this.y + this.yOff;
     }
 
+    @Override
+    public void update(int delta) {
+        if (this.moved) {
+            if (this.down) {
+                this.an = downa;
+            }
+            if (this.right) {
+                this.an = righta;
+            }
+            if (this.left) {
+                this.an = lefta;
+            }
+            if (this.up) {
+                this.an = upa;
+            }
+        } else {
+            this.an = standa;
+        }
+    }
 }

@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  *
@@ -38,7 +40,7 @@ public class CreateGameButton extends Button {
                 Logger.getLogger(CreateGameButton.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.sbg.addState(state);
-            this.sbg.enterState(3);
+            this.sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
         }
     }
 

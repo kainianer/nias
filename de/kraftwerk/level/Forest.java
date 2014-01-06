@@ -9,6 +9,7 @@ import de.kraftwerk.player.Player;
 import de.kraftwerk.util.Random;
 import java.util.ArrayList;
 import java.util.List;
+import org.newdawn.slick.GameContainer;
 
 /**
  *
@@ -22,8 +23,8 @@ public class Forest extends Level {
     private final int minSize;
     private final int maxSize;
 
-    public Forest(int size, int rooms, int margin, int minSize, int maxSize, Player player) {
-        super(size, player);
+    public Forest(int size, int rooms, int margin, int minSize, int maxSize, Player player, GameContainer gc, String name) {
+        super(size, player, gc, name);
         this.roomValue = rooms;
         this.margin = margin;
         this.minSize = minSize + 2;

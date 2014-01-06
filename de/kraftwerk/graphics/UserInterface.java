@@ -37,7 +37,14 @@ public enum UserInterface {
     SLIDE_RAIL(new Layout(88, 24, 8, 8)),
     SLIDE_TOP(new Layout(80, 32, 8, 8)),
     SLIDE_BOT(new Layout(88, 32, 8, 8)),
-    SPELLBAR(new Layout(0, 56, 16, 16));
+    SPELLBAR(new Layout(0, 56, 96, 16)),
+    BAR_LEFT(new Layout(80, 0, 8, 8)),
+    BAR_BG(new Layout(88, 0, 8, 8)),
+    BAR_RIGHT(new Layout(96, 0, 8, 8)),
+    SLOT(new Layout(2, 58, 12, 12)),
+    HEALTHBAR(new Layout(104,0,1,6)),
+    MANABAR(new Layout(106,0,1,6)),
+    CASTBAR(new Layout(105,0,1,6));
 
     private Image txtr;
 
@@ -62,5 +69,4 @@ public enum UserInterface {
     public int getHeight() {
         return this.txtr.getHeight();
     }
-
 }

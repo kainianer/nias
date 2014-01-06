@@ -5,7 +5,7 @@
  */
 package de.kraftwerk.nias;
 
-import de.kraftwerk.states.Game;
+import de.kraftwerk.states.Splash;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,7 +44,7 @@ public class Nias extends StateBasedGame {
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
         this.createCursor(gc);
-        this.addState(new Game(gc, this));
+        this.addState(new Splash(gc, this));
     }
 
     @Override

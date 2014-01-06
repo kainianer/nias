@@ -9,6 +9,7 @@ import de.kraftwerk.player.Player;
 import de.kraftwerk.util.Random;
 import java.util.ArrayList;
 import java.util.List;
+import org.newdawn.slick.GameContainer;
 
 /**
  *
@@ -20,8 +21,8 @@ public class Dungeon extends Level {
     private final int margin;
     private final List<Room> roomList = new ArrayList<>();
 
-    public Dungeon(int size, int rooms, int margin, Player player) {
-        super(size, player);
+    public Dungeon(int size, int rooms, int margin, Player player, GameContainer gc, String name) {
+        super(size, player, gc, name);
         this.rooms = rooms;
         this.margin = margin;
     }

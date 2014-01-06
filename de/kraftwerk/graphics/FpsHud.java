@@ -21,10 +21,10 @@ public class FpsHud {
 
     public void draw(Graphics grphcs, int fps) {
         grphcs.setColor(Color.white);
-        grphcs.drawString("History of Nias - Developer client", 10, 10);
+        grphcs.drawString("History of Nias - Developer client", 5, 0);
         Date d = new Date();
         SimpleDateFormat s = new SimpleDateFormat("dd.MM.yy, kk:mm");
-        grphcs.drawString("TIME: " + s.format(d), 10, 30);
-        grphcs.drawString("FPS: " + fps, 10, 50);
+        grphcs.drawString("TIME: " + s.format(d), 5, 20);
+        grphcs.drawString("FPS: " + fps, 5, 40);
     }
 }

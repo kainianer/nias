@@ -23,7 +23,6 @@ import org.newdawn.slick.Sound;
  */
 public class DropdownMenu extends SubComponent implements MouseListener, Updateable, Renderable {
 
-    private boolean pressed;
     private boolean hovered;
     private boolean selected;
 
@@ -36,14 +35,16 @@ public class DropdownMenu extends SubComponent implements MouseListener, Updatea
     private final Menu layout;
 
     private final Sound sound;
-
-    public DropdownMenu(Layout lout, String text, MenuType type) {
+    private final Menu contained;
+    
+    public DropdownMenu(Layout lout, String text, MenuType type, Menu contained) {
         super(lout);
         this.layout = new Menu(lout, type);
         this.yOrg = this.getY();
         this.yAim = this.getHeight() - 64;
         this.text = text;
         this.sound = Sounds.DROPDOWN.getSound();
+        this.contained = contained;
     }
 
     @Override
@@ -69,13 +70,15 @@ public class DropdownMenu extends SubComponent implements MouseListener, Updatea
 
     @Override
     public void update(int i) {
-        if (this.hovered) {
-            if (this.getY() + this.getHeight() < this.yAim) {
-                this.setY(this.getY() + (this.yAim - (this.getY() + this.getHeight())) / 8);
-            }
-        } else {
-            if (this.getY() > this.yOrg) {
-                this.setY(this.getY() - (this.getY() - this.yOrg) / 5);
+        if (this.contained.isActive()) {
+            if (this.hovered) {
+                if (this.getY() + this.getHeight() < this.yAim) {
+                    this.setY(this.getY() + (this.yAim - (this.getY() + this.getHeight())) / 8);
+                }
+            } else {
+                if (this.getY() > this.yOrg) {
+                    this.setY(this.getY() - (this.getY() - this.yOrg) / 5);
+                }
             }
         }
     }
@@ -98,16 +101,18 @@ public class DropdownMenu extends SubComponent implements MouseListener, Updatea
 
     @Override
     public void mouseMoved(int i, int i1, int i2, int i3) {
-        if (new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight()).contains(i2, i3)) {
-            if (!this.hovered) {
-                this.hovered = true;
-                if (!this.sound.playing()) {
-                    this.sound.play(1f, 0.5f);
+        if (this.contained.isActive()) {
+            if (new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight()).contains(i2, i3)) {
+                if (!this.hovered) {
+                    this.hovered = true;
+                    if (!this.sound.playing()) {
+                        this.sound.play(1f, 0.5f);
+                    }
                 }
-            }
-        } else {
-            if (this.hovered) {
-                this.hovered = false;
+            } else {
+                if (this.hovered) {
+                    this.hovered = false;
+                }
             }
         }
     }

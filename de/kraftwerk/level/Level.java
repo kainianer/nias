@@ -7,6 +7,7 @@ package de.kraftwerk.level;
 
 import de.kraftwerk.graphics.TextureAtlas;
 import de.kraftwerk.player.Player;
+import de.kraftwerk.ui.Notation;
 import java.util.Random;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -19,20 +20,24 @@ public class Level {
 
     private final int[][] level;
     private int size;
-
+    private final Notation note;
     private final Player player;
+    private final GameContainer gc;
 
-    public Level(int size, Player player) {
+    public Level(int size, Player player, GameContainer gc, String levelname) {
         this.size = size;
         this.level = new int[size][size];
         this.player = player;
+        this.gc = gc;
+        this.note = new Notation(levelname, 2000, gc);
+        this.note.setActive(true);
     }
 
     public void create() {
         for (int i = 0; i < this.level.length; i++) {
             for (int j = 0; j < this.level[i].length; j++) {
-                TextureAtlas[] at = TextureAtlas.values();
-                this.level[i][j] = new Random().nextInt(at.length - 1);
+                //TextureAtlas[] at = TextureAtlas.values();
+                this.level[i][j] = 0;
             }
         }
     }
@@ -70,17 +75,42 @@ public class Level {
 
         for (int xx = startX, i = 0; xx < endX; xx++, i++) {
             for (int yy = startY, j = 0; yy < endY; yy++, j++) {
-                if (xx > 0 && yy > 0 && xx < this.level.length && yy < this.level[i].length) {
-                    TextureAtlas.getById(this.level[xx][yy]).getTexture().draw(i * 80 - xOff, j * 80 - yOff);
-                }
+                TextureAtlas.getById(this.level[xx][yy]).getTexture().draw(i * 80 - xOff, j * 80 - yOff);
             }
         }
-        this.player.draw(grphcs);
+        this.player.draw(grphcs, gc);
     }
 
     public void update(int delta, int x, int y) {
-        this.player.setX(x);
-        this.player.setY(y);
+        int xOld = this.player.getRealX();
+        int yOld = this.player.getRealY();
 
+        if (x > 0 && (x + this.gc.getWidth()) / 80 + 1 < this.level.length) {
+            this.player.setxOff(0);
+            this.player.setX(x);
+        } else {
+            this.player.setxOff(x - this.player.getX());
+        }
+        if (y > 0 && (y + this.gc.getHeight()) / 80 + 1 < this.level[1].length) {
+            this.player.setyOff(0);
+            this.player.setY(y);
+        } else {
+            this.player.setyOff(y - this.player.getY());
+        }
+
+        this.player.moved = this.player.getX() != xOld || this.player.getY() != yOld;
+        if (this.player.moved) {
+            this.player.right = xOld < x;
+            this.player.left = xOld > x;
+            this.player.up = yOld > y;
+            this.player.down = yOld < y;
+
+        }
+        this.player.update(delta);
+        this.note.update(delta);
+    }
+    
+    public Notation getNote() {
+        return this.note;
     }
 }

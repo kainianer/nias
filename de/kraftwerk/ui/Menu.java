@@ -11,6 +11,7 @@ import de.kraftwerk.graphics.Fonts;
 import de.kraftwerk.graphics.UserInterface;
 import de.kraftwerk.stateability.Renderable;
 import de.kraftwerk.util.Layout;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -104,6 +105,7 @@ public class Menu extends Component implements Renderable {
         this.type.getCorner().getFlippedCopy(true, true).draw(this.getX() + this.getWidth() - UserInterface.MENU_CORNER.getWidth(), this.getHeight() + this.getY() - UserInterface.MENU_CORNER.getHeight());
 
         if (header != null) {
+            grphcs.setColor(Color.white);
             grphcs.setFont(Fonts.SUB.getTrueTypeFont());
             grphcs.drawString(header, this.getX() + (this.getWidth() - grphcs.getFont().getWidth(header)) / 2, this.getY() + 16);
         }

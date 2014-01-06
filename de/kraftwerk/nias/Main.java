@@ -1,14 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright 2013 by Kraftwerk Productions
+ *  Do not distribute!
+ * 
  */
 package de.kraftwerk.nias;
 
-import java.awt.SplashScreen;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
@@ -21,8 +21,9 @@ public class Main {
     /**
      * @param args the command line arguments
      * @throws org.newdawn.slick.SlickException
+     * @throws org.lwjgl.LWJGLException
      */
-    public static void main(String[] args) throws SlickException {
+    public static void main(String[] args) throws SlickException, LWJGLException {
 
         System.setProperty("java.library.path", "lib");
         System.setProperty("org.lwjgl.librarypath", new File("lib/native/linux").getAbsolutePath());

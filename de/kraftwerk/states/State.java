@@ -55,18 +55,6 @@ public class State extends BasicGameState {
         gc.getInput().removeAllListeners();
         gc.getInput().addKeyListener(this);
         gc.getInput().addKeyListener(sbg);
-        for (Component comp : this.compList) {
-            if (comp.hasSubComponents()) {
-                for (SubComponent sub : comp.getSubCmpnt()) {
-                    if (sub instanceof MouseListener) {
-                        gc.getInput().addMouseListener((MouseListener) sub);
-                    }
-                }
-            }
-            if (comp instanceof MouseListener) {
-                gc.getInput().addMouseListener((MouseListener) comp);
-            }
-        }
 
         for (Component comp : this.compList) {
             if (comp.hasSubComponents()) {
@@ -74,12 +62,19 @@ public class State extends BasicGameState {
                     if (sub instanceof KeyListener) {
                         gc.getInput().addKeyListener((KeyListener) sub);
                     }
+                    if (sub instanceof MouseListener) {
+                        gc.getInput().addMouseListener((MouseListener) sub);
+                    }
                 }
             }
             if (comp instanceof KeyListener) {
                 gc.getInput().addKeyListener((KeyListener) comp);
             }
+            if (comp instanceof MouseListener) {
+                gc.getInput().addMouseListener((MouseListener) comp);
+            }
         }
+
     }
 
     @Override
