@@ -28,9 +28,10 @@ public class Item {
         INTELLIGENCE,
         VITALITY,
         RESISTANCE,
-        AIM,
         WISDOM,
-        ATTACKSPEED;
+        ATTACKSPEED,
+        RUNSPEED,
+        ENDURANCE;
 
     }
 
@@ -61,7 +62,7 @@ public class Item {
         Random random = new Random();
         int rarity = random.nextInt(6);
         ItemIcon[] icons = ItemIcon.values();
-        Image icon = icons[random.nextInt(icons.length - 2) + 1].getTexture();
+        Image icon = icons[random.nextInt(icons.length)].getTexture();
         Map<Stats, Integer> stats = new HashMap<>();
         for (int i = 0; i < rarity; i++) {
             Stats[] st = Stats.values();
@@ -164,7 +165,7 @@ public class Item {
         }
     }
 
-    public void drawHover(Graphics grphcs, int x,int y) {
+    public void drawHover(Graphics grphcs, int x, int y) {
         this.hover.draw(grphcs, x, y);
     }
 

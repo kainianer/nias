@@ -80,8 +80,8 @@ public class Button extends SubComponent implements MouseListener, Renderable {
         if (this.isHovered(i1, i2)) {
             if (!this.pressed) {
                 this.pressed = true;
+                this.click1.play(0.5f, 0.5f);
             }
-            this.click2.play(1f, 0.5f);
         }
     }
 
@@ -89,7 +89,7 @@ public class Button extends SubComponent implements MouseListener, Renderable {
     public void mouseReleased(int i, int i1, int i2) {
         if (this.pressed) {
             this.pressed = false;
-            this.click2.play(1f, 0.5f);
+            this.click2.play(0.5f, 0.5f);
         }
     }
 

@@ -17,46 +17,46 @@ import org.newdawn.slick.Image;
  * @author kainianer
  */
 public class ItemHover {
-
+    
     private final Item item;
     private final int totalHeight;
     private final int totalWidth;
     private final Image corner = UserInterface.ITEMHOVER_CORNER.getTexture();
     private final Image ve = UserInterface.ITEMHOVER_VE.getTexture();
     private final Image ho = UserInterface.ITEMHOVER_HO.getTexture();
-
+    
     public ItemHover(Item item) {
         this.item = item;
         this.totalWidth = this.getMaxWidth(this.item);
         this.totalHeight = this.getMaxHeight(this.item);
     }
-
+    
     private int getMaxWidth(Item item) {
         int max = Fonts.TEXT.getTrueTypeFont().getWidth(this.item.getName());
-
+        
         for (String string : item.getLore()) {
             if (Fonts.TEXT.getTrueTypeFont().getWidth(string) > max) {
                 max = Fonts.TEXT.getTrueTypeFont().getWidth(string);
             }
         }
-
+        
         for (Stats stat : item.getStats().keySet()) {
             if (Fonts.TEXT.getTrueTypeFont().getWidth(stat.name().toLowerCase() + " " + String.valueOf(item.getStats().get(stat))) > max) {
                 max = Fonts.TEXT.getTrueTypeFont().getWidth(stat.name().toLowerCase() + " " + String.valueOf(item.getStats().get(stat)));
             }
         }
-
-        return max + 24;
+        
+        return max + 48;
     }
-
+    
     private int getMaxHeight(Item item) {
         int max = 0;
         max += Fonts.TEXT.getTrueTypeFont().getLineHeight() * (item.getLore().size() + item.getStats().size());
         return max + 72;
     }
-
+    
     public void draw(Graphics grphcs, int x, int y) {
-
+        
         this.corner.setImageColor(item.getItemColor().getRed(), item.getItemColor().getGreen(), item.getItemColor().getBlue());
         this.ve.setImageColor(item.getItemColor().getRed(), item.getItemColor().getGreen(), item.getItemColor().getBlue());
         this.ho.setImageColor(item.getItemColor().getRed(), item.getItemColor().getGreen(), item.getItemColor().getBlue());
@@ -78,13 +78,16 @@ public class ItemHover {
         this.ho.draw(x, y + this.totalHeight, this.totalWidth, 5);
         this.ve.draw(x - 5, y + 5, 5, this.totalHeight - 5);
         this.ve.draw(x + this.totalWidth, y + 5, 5, this.totalHeight - 5);
-        grphcs.setColor(Color.gray);
-
+        
         int k = 0;
         for (Stats stat : this.item.getStats().keySet()) {
+            grphcs.setColor(Color.gray);
             grphcs.drawString(stat.name().toLowerCase(), x + 16, y + 48 + k * Fonts.TEXT.getTrueTypeFont().getLineHeight());
+            int value = this.item.getStats().get(stat);
+            grphcs.setColor(Color.white);
+            grphcs.drawString(String.valueOf(value), x - 16 + this.totalWidth - Fonts.TEXT.getTrueTypeFont().getWidth(String.valueOf(value)), y + 48 + k * Fonts.TEXT.getTrueTypeFont().getLineHeight());
             k++;
         }
     }
-
+    
 }

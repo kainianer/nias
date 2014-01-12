@@ -23,7 +23,9 @@ public enum ItemIcon {
     GEM(6, 1),
     BOW(7, 1),
     SWORD(8, 1),
-    STAFF(9, 1);
+    STAFF(9, 1),
+    STAFF_2(10,1),
+    BOW_2(11,1);
 
     private Image txtr;
 

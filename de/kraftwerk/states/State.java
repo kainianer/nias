@@ -37,7 +37,7 @@ public class State extends BasicGameState {
         this.gc = gc;
         this.sbg = sbg;
         this.compList = new ArrayList<>();
-        this.fps = new FpsHud();
+        this.fps = new FpsHud(gc);
         this.id = id;
     }
 

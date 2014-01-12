@@ -5,12 +5,11 @@
  */
 package de.kraftwerk.states;
 
+import de.kraftwerk.classes.Classes;
 import de.kraftwerk.gameinterface.GameInterface;
+import de.kraftwerk.item.Drop;
 import de.kraftwerk.level.Level;
 import de.kraftwerk.player.Player;
-import de.kraftwerk.ui.Component;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -26,7 +25,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Game extends State {
 
     public static final int ID = 3;
-    private final List<Component> compList = new ArrayList<>();
 
     private final Level level;
     private final Player player;
@@ -34,7 +32,7 @@ public class Game extends State {
 
     public Game(GameContainer gc, StateBasedGame sbg, String name) {
         super(Game.ID, gc, sbg);
-        this.player = new Player(name);
+        this.player = new Player(name, Classes.MAGE);
         this.gameInterface = new GameInterface(this.player);
         this.level = new Level(32, player, gc, "Raheria");
         this.level.create();
@@ -44,6 +42,9 @@ public class Game extends State {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         super.init(gc, sbg);
         this.gameInterface.initListener(gc);
+        for(Drop drop : this.level.getDrops()) {
+            gc.getInput().addMouseListener(drop);
+        }
     }
 
     @Override
@@ -60,10 +61,9 @@ public class Game extends State {
                 grphcs.fillRect(x * 40, y * 40, 40, 40);
             }
         }
-
+        super.render(gc, sbg, grphcs);
         this.gameInterface.draw(grphcs);
         this.level.getNote().draw(grphcs);
-        super.render(gc, sbg, grphcs);
     }
 
     @Override
@@ -91,7 +91,6 @@ public class Game extends State {
     public void keyPressed(int key, char c) {
         switch (key) {
             case Input.KEY_ESCAPE:
-
                 State state = new Pause(this, this.gc, this.sbg);
                 try {
                     state.init(this.sbg.getContainer(), this.sbg);

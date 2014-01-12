@@ -5,8 +5,13 @@
  */
 package de.kraftwerk.player;
 
+import de.kraftwerk.classes.Classes;
 import de.kraftwerk.graphics.Fonts;
+import de.kraftwerk.item.Item.Stats;
 import de.kraftwerk.stateability.Updateable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Animation;
@@ -28,14 +33,16 @@ public class Player implements Updateable {
     private int xOff;
     private int yOff;
 
+    private int skillPoints;
+    private String name;
+    private Map<Stats, Integer> stats = new HashMap<>();
+    
     public Animation standa;
     public Animation upa;
     public Animation downa;
     public Animation lefta;
     public Animation righta;
     public Animation an;
-
-    private String name;
 
     public boolean left;
     public boolean right;
@@ -44,8 +51,8 @@ public class Player implements Updateable {
 
     public boolean moved;
     public Image shadow;
-
-    public Player(String name) {
+    
+    public Player(String name, Classes classes) {
         this.name = name;
         try {
 
@@ -69,6 +76,11 @@ public class Player implements Updateable {
         } catch (SlickException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        for(Stats st : classes.getClassStats()) {
+            this.stats.put(st, new Random().nextInt(1337));
+        }
+        
     }
 
     public void draw(Graphics grphcs, GameContainer gc) {
@@ -147,7 +159,15 @@ public class Player implements Updateable {
     public void setyOff(int yOff) {
         this.yOff = yOff;
     }
+    
+    public Map<Stats, Integer> getStats() {
+        return this.stats;
+    }
 
+    public int getSkillPoints() {
+        return this.skillPoints;
+    }
+    
     public int getRealX() {
         return this.x + this.xOff;
     }

@@ -15,11 +15,14 @@ import de.kraftwerk.ui.SubComponent;
 import de.kraftwerk.util.Layout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -37,6 +40,8 @@ public class GameInterface implements Renderable, Updateable {
     private final int barX;
     private final int barY;
 
+    private Image book;
+
     public GameInterface(Player holder) {
         this.player = holder;
         this.skillMenu = new SkillMenu(holder);
@@ -52,19 +57,28 @@ public class GameInterface implements Renderable, Updateable {
         this.healthBar.setActive(true);
         this.manaBar = new Bar(new Layout(barX + this.spellbar.getWidth() - this.healthBar.getWidth(), barY - 16 - UserInterface.BAR_BG.getHeight(), this.healthBar.getWidth(), 0), BarType.MANA);
         this.manaBar.setActive(true);
+        try {
+            this.book = new Image("res/book.png");
+            this.book.setFilter(Image.FILTER_NEAREST);
+            this.book = this.book.getScaledCopy(5f);
+        } catch (SlickException ex) {
+            Logger.getLogger(GameInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void draw(Graphics grphcs) {
+        this.spellbar.draw(barX, barY);
+        this.healthBar.draw(grphcs);
+        this.manaBar.draw(grphcs);
         if (this.skillMenu.isActive()) {
             this.skillMenu.draw(grphcs);
         }
         if (this.invMenu.isActive()) {
             this.invMenu.draw(grphcs);
         }
-        this.spellbar.draw(barX, barY);
-        this.healthBar.draw(grphcs);
-        this.manaBar.draw(grphcs);
+      // this.book.draw(1280 / 2 - this.book.getWidth() / 2, 720 / 2 - this.book.getHeight() / 2-56);
+
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Menu extends Component implements Renderable {
     private boolean cancelButton;
     private boolean continueButton;
     private String header = null;
-    private final MenuType type;
+    private MenuType type;
 
     public enum MenuType {
 
@@ -164,4 +164,11 @@ public class Menu extends Component implements Renderable {
         return this.getHeight() - this.getHeaderHeight() - this.getButtonOffset();
     }
 
+    public void setType(MenuType type) {
+        this.type = type;
+    }
+    
+    public MenuType getType() {
+        return this.type;
+    }
 }

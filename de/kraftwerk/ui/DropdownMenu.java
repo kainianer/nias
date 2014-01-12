@@ -36,7 +36,7 @@ public class DropdownMenu extends SubComponent implements MouseListener, Updatea
 
     private final Sound sound;
     private final Menu contained;
-    
+
     public DropdownMenu(Layout lout, String text, MenuType type, Menu contained) {
         super(lout);
         this.layout = new Menu(lout, type);
@@ -73,11 +73,11 @@ public class DropdownMenu extends SubComponent implements MouseListener, Updatea
         if (this.contained.isActive()) {
             if (this.hovered) {
                 if (this.getY() + this.getHeight() < this.yAim) {
-                    this.setY(this.getY() + (this.yAim - (this.getY() + this.getHeight())) / 8);
+                    this.setY(this.getY() + (this.yAim - (this.getY() + this.getHeight())) * i / 100);
                 }
             } else {
                 if (this.getY() > this.yOrg) {
-                    this.setY(this.getY() - (this.getY() - this.yOrg) / 5);
+                    this.setY(this.getY() - (this.getY() - this.yOrg) * i / 100);
                 }
             }
         }
@@ -145,5 +145,9 @@ public class DropdownMenu extends SubComponent implements MouseListener, Updatea
 
     public int getYOrg() {
         return this.yOrg;
+    }
+
+    public Menu getLayoutMenu() {
+        return this.layout;
     }
 }
