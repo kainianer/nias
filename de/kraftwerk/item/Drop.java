@@ -5,28 +5,41 @@
 package de.kraftwerk.item;
 
 import de.kraftwerk.graphics.Fonts;
+import de.kraftwerk.stateability.Updateable;
 import de.kraftwerk.ui.SubComponent;
 import de.kraftwerk.util.Layout;
 import java.awt.Rectangle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
+import org.newdawn.slick.SlickException;
 
 /**
  *
  * @author kainianer
  */
-public class Drop extends SubComponent implements MouseListener {
+public class Drop extends SubComponent implements MouseListener, Updateable {
 
     private final Item item;
     private boolean hovered;
     private int screenx;
     private int screeny;
-    
+    private Image shadow;
+    private float sin;
+
     public Drop(int x, int y, Item item) {
         super(new Layout(x, y, Fonts.TEXT.getTrueTypeFont().getWidth(item.getName()) + 8, Fonts.TEXT.getTrueTypeFont().getLineHeight() + 4));
         this.item = item;
+        try {
+            this.shadow = new Image("res/sprite.png").getSubImage(96, 96, 16, 8).getScaledCopy(5f);
+        } catch (SlickException ex) {
+            Logger.getLogger(Drop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public void draw(Graphics grphcs, int x, int y) {
@@ -40,6 +53,10 @@ public class Drop extends SubComponent implements MouseListener {
         if (this.hovered) {
             this.item.drawHover(grphcs, x, y);
         }
+        Image shad = this.shadow.getScaledCopy(0.75f + Math.abs((float) Math.sin(this.sin / 2 + 1) / 8));
+        shad.draw(x + (Fonts.TEXT.getTrueTypeFont().getWidth(this.item.getName()) - shad.getWidth()) / 2, y + this.item.getIcon().getHeight() * 5 / 2);
+        this.item.getIcon().draw(x - (Fonts.TEXT.getTrueTypeFont().getWidth(this.item.getName()) - this.item.getIcon().getWidth()) / 2 + 8, y + 48 + (int) (Math.sin(this.sin) * 10));
+        System.out.println(this.sin);
     }
 
     @Override
@@ -95,8 +112,13 @@ public class Drop extends SubComponent implements MouseListener {
     public boolean isHovered(int x, int y) {
         return new Rectangle(this.screenx, this.screeny, this.getWidth(), this.getHeight()).contains(x, y);
     }
-    
+
     public boolean isHovered() {
         return this.hovered;
+    }
+
+    @Override
+    public void update(int delta) {
+        this.sin += 0.1 * delta / 20;
     }
 }

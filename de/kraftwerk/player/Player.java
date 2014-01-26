@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -36,7 +37,7 @@ public class Player implements Updateable {
     private int skillPoints;
     private String name;
     private Map<Stats, Integer> stats = new HashMap<>();
-    
+
     public Animation standa;
     public Animation upa;
     public Animation downa;
@@ -51,7 +52,7 @@ public class Player implements Updateable {
 
     public boolean moved;
     public Image shadow;
-    
+
     public Player(String name, Classes classes) {
         this.name = name;
         try {
@@ -76,15 +77,16 @@ public class Player implements Updateable {
         } catch (SlickException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        for(Stats st : classes.getClassStats()) {
+
+        for (Stats st : classes.getClassStats()) {
             this.stats.put(st, new Random().nextInt(1337));
         }
-        
+
     }
 
     public void draw(Graphics grphcs, GameContainer gc) {
         grphcs.setFont(Fonts.TEXT.getTrueTypeFont());
+        grphcs.setColor(Color.white);
         grphcs.drawString(name, gc.getWidth() / 2 - grphcs.getFont().getWidth(name) / 2 + this.xOff, gc.getHeight() / 2 - 64 + this.yOff);
         this.an.draw((gc.getWidth() - an.getCurrentFrame().getWidth()) / 2 + this.xOff, (gc.getHeight() - an.getCurrentFrame().getHeight()) / 2 + this.yOff);
         this.shadow.draw((gc.getWidth() - this.shadow.getWidth()) / 2 + this.xOff, (gc.getHeight() - this.shadow.getHeight()) / 2 + this.yOff + 43);
@@ -159,7 +161,7 @@ public class Player implements Updateable {
     public void setyOff(int yOff) {
         this.yOff = yOff;
     }
-    
+
     public Map<Stats, Integer> getStats() {
         return this.stats;
     }
@@ -167,7 +169,7 @@ public class Player implements Updateable {
     public int getSkillPoints() {
         return this.skillPoints;
     }
-    
+
     public int getRealX() {
         return this.x + this.xOff;
     }

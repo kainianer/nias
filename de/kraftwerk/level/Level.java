@@ -60,7 +60,7 @@ public class Level {
 
         //adding critters
         for (int i = 0; i < new Random().nextInt(30); i++) {
-            this.critterPos.add(new Point(new Random().nextInt(this.size*80), new Random().nextInt(this.size*80)));
+            this.critterPos.add(new Point(new Random().nextInt(this.size * 80), new Random().nextInt(this.size * 80)));
         }
     }
 
@@ -123,21 +123,20 @@ public class Level {
 
             }
         }
-//
-//        Drop hovered = null;
-//        for (Drop dr : this.dropList) {
-//            if (this.player.getX() < dr.getX() + 80 && this.player.getY() < dr.getY() + 80 && dr.getX() < this.player.getX() + 1280 && dr.getY() < this.player.getY() + 720) {
-//                if (!dr.isHovered()) {
-//                    dr.draw(grphcs, dr.getX() - this.player.getX(), dr.getY() - this.player.getY());
-//                } else {
-//                    hovered = dr;
-//                }
-//            }
-//        }
+        Drop hovered = null;
+        for (Drop dr : this.dropList) {
+            if (this.player.getX() < dr.getX() + 80 && this.player.getY() < dr.getY() + 80 && dr.getX() < this.player.getX() + 1280 && dr.getY() < this.player.getY() + 720) {
+                if (!dr.isHovered()) {
+                    dr.draw(grphcs, dr.getX() - this.player.getX(), dr.getY() - this.player.getY());
+                } else {
+                    hovered = dr;
+                }
+            }
+        }
         this.player.draw(grphcs, gc);
-//        if (hovered != null) {
-//            hovered.draw(grphcs, hovered.getX() - this.player.getX(), hovered.getY() - this.player.getY());
-//        }
+        if (hovered != null) {
+            hovered.draw(grphcs, hovered.getX() - this.player.getX(), hovered.getY() - this.player.getY());
+        }
 
         //rendering critters
         for (Point p : this.critterPos) {
@@ -171,6 +170,10 @@ public class Level {
         }
         this.player.update(delta);
         this.note.update(delta);
+        
+        for(Drop dr: this.dropList) {
+            dr.update(delta);
+        }
     }
 
     public Notation getNote() {
